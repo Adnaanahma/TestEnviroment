@@ -12,10 +12,12 @@ public class WeatherForecastController : ControllerBase
 
     private readonly ILogger<WeatherForecastController> _logger;
     private readonly ConnectionStrings _connectionStrings;
-    public WeatherForecastController(ILogger<WeatherForecastController> logger, IOptions<ConnectionStrings> connectionStrings)
+    private readonly IConfiguration _configuration;
+    public WeatherForecastController(ILogger<WeatherForecastController> logger, IOptions<ConnectionStrings> connectionStrings, IConfiguration configuration)
     {
         _connectionStrings = connectionStrings.Value;
         _logger = logger;
+        _configuration = configuration;
     }
 
     [HttpGet(Name = "GetWeatherForecast")]
@@ -33,7 +35,8 @@ public class WeatherForecastController : ControllerBase
     [HttpGet("get-database-url")]
     public IActionResult GetDatabaseUrl()
     {
-        var databaseUrl = _connectionStrings.DefaultConnection;
+        //var databaseUrl = _connectionStrings.DefaultConnection;
+        var databaseUrl = _configuration.GetValue<string>("DATABASE_URL");
         if (string.IsNullOrEmpty(databaseUrl))
         {
             return NotFound("Environment variable 'DATABASE_URL' not set.");
