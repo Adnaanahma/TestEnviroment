@@ -1,0 +1,6 @@
+@TestingEnvironmetalVAr_HostAddress = http://localhost:5160
+
+GET {{TestingEnvironmetalVAr_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
